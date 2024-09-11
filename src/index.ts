@@ -93,7 +93,7 @@ export default function createTransport(options: DiscordTransportOptions): build
             embed.footer.text += `Host: ${hostname}`;
           }
         }
-        embed.timestamp = new Date(time).toLocaleString("en-US");
+        embed.timestamp = new Date(time).toISOString();
         body.embeds = [embed];
 
         if (typeof mentionId !== "undefined" && level >= LogLevel.Warn) {
@@ -104,6 +104,9 @@ export default function createTransport(options: DiscordTransportOptions): build
         }
         const init: RequestInit = {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify(body),
         };
         const response = await fetch(webhookUrl, init);
