@@ -9,10 +9,10 @@ importers:
   .:
     dependencies:
       discord-api-types:
-        specifier: ^0.37.100
+        specifier: 0.37.100
         version: 0.37.100
       pino-abstract-transport:
-        specifier: ^2.0.0
+        specifier: 2.0.0
         version: 2.0.0
     devDependencies:
       '@bachman-dev/eslint-config':
@@ -22,7 +22,7 @@ importers:
         specifier: 9.10.0
         version: 9.10.0
       '@types/node':
-        specifier: '20'
+        specifier: 20.16.5
         version: 20.16.5
       eslint:
         specifier: 9.10.0
