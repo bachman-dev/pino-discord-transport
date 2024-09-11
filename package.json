@@ -1,0 +1,46 @@
+{
+  "name": "@bachman-dev/pino-discord-transport",
+  "version": "0.1.0",
+  "author": "Collin Bachman <collin.r68zdn9d@bachman.dev>",
+  "description": "A pino transport that sends a log entry to a Discord webhook",
+  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bachman-dev/pino-discord-transport"
+  },
+  "license": "MIT",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist/**/*.{js,d.ts}"
+  ],
+  "scripts": {
+    "build": "tsup --dts --format esm src/index.ts",
+    "lint": "eslint . && prettier --check .",
+    "lint:fix": "eslint --fix . && prettier --write ."
+  },
+  "devDependencies": {
+    "@bachman-dev/eslint-config": "1.0.0",
+    "@eslint/js": "9.10.0",
+    "@types/node": "20",
+    "eslint": "9.10.0",
+    "eslint-config-prettier": "9.1.0",
+    "prettier": "3.3.3",
+    "tsup": "8.2.4",
+    "typescript": "5.5.4",
+    "typescript-eslint": "8.4.0"
+  },
+  "dependencies": {
+    "discord-api-types": "^0.37.100",
+    "pino-abstract-transport": "^2.0.0"
+  },
+  "packageManager": "pnpm@9.9.0+sha512.60c18acd138bff695d339be6ad13f7e936eea6745660d4cc4a776d5247c540d0edee1a563695c183a66eb917ef88f2b4feb1fc25f32a7adcadc7aaf3438e99c1"
+}
