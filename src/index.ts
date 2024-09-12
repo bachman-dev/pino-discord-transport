@@ -29,6 +29,8 @@ enum LogLevel {
   Fatal = 60,
 }
 
+type MentionLevel = "debug" | "error" | "fatal" | "info" | "trace" | "warn";
+
 function isPinoLog(value: unknown): value is PinoLog {
   return (
     typeof value === "object" &&
@@ -42,9 +44,28 @@ function isPinoLog(value: unknown): value is PinoLog {
   );
 }
 
+function shouldMention(logLevel: LogLevel, mentionLevel: MentionLevel | undefined): boolean {
+  switch (mentionLevel) {
+    case "trace":
+      return logLevel >= LogLevel.Trace;
+    case "debug":
+      return logLevel >= LogLevel.Debug;
+    case "info":
+      return logLevel >= LogLevel.Info;
+    case "warn":
+      return logLevel >= LogLevel.Warn;
+    case "error":
+      return logLevel >= LogLevel.Error;
+    case "fatal":
+      return logLevel >= LogLevel.Fatal;
+    default:
+      return true;
+  }
+}
+
 export default function createTransport(options: DiscordTransportOptions): build.OnUnknown & Transform {
   return build(async (logs) => {
-    const { mentionId, webhookUrl } = options;
+    const { mentionId, mentionLevel, webhookUrl } = options;
     for await (const anyLog of logs) {
       const log = anyLog as unknown;
       if (isPinoLog(log)) {
@@ -96,7 +117,7 @@ export default function createTransport(options: DiscordTransportOptions): build
         embed.timestamp = new Date(time).toISOString();
         body.embeds = [embed];
 
-        if (typeof mentionId !== "undefined" && level >= LogLevel.Warn) {
+        if (typeof mentionId !== "undefined" && shouldMention(level, mentionLevel)) {
           body.allowed_mentions = {
             users: [mentionId],
           };
@@ -124,4 +145,5 @@ export default function createTransport(options: DiscordTransportOptions): build
 export interface DiscordTransportOptions {
   webhookUrl: string;
   mentionId?: string;
+  mentionLevel?: MentionLevel;
 }
